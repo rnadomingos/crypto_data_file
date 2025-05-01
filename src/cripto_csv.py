@@ -1,9 +1,9 @@
 import pandas as pd
 from hashlib import sha256
 
-file_csv = './exemplo.csv'
+file_csv = "data/input/cliente_bmw.csv"
 
-df = pd.read_csv(file_csv)
+df = pd.read_csv(file_csv, sep=';')
 
 exclude_columns = []
 # Iterate through each row and column
@@ -21,7 +21,7 @@ for index, row in df.iterrows():
         df[column] = df[column].astype(str) 
         df.at[index, column] = hashed_value
 # Path to save the hashed CSV file
-hashed_file_path = "hashed_data.csv"
+hashed_file_path = "data/output/cliente_bmw_hashed.csv"
 
 # Save the modified DataFrame to a new CSV file
 df.to_csv(hashed_file_path, index=False)
