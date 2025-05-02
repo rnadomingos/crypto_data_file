@@ -5,7 +5,9 @@ file_csv = "data/input/cliente_bmw.csv"
 
 df = pd.read_csv(file_csv, sep=';')
 
-exclude_columns = []
+df['Zip'] = df['Zip'].astype(str).str.zfill(5)
+
+exclude_columns = ['Zip', 'Country']
 # Iterate through each row and column
 for index, row in df.iterrows():
     for column in df.columns:
@@ -14,12 +16,14 @@ for index, row in df.iterrows():
             # Get the value from the current cell
             value = str(row[column])
 
-        # Hash the value using SHA-256
-        hashed_value = sha256(value.encode()).hexdigest()
+            # Hash the value using SHA-256
+            hashed_value = sha256(value.encode(encoding='utf-8')).hexdigest()
 
-        # Update the DataFrame with the hashed value
-        df[column] = df[column].astype(str) 
-        df.at[index, column] = hashed_value
+            # Update the DataFrame with the hashed value
+            df[column] = df[column].astype(str) 
+            df.at[index, column] = hashed_value
+
+
 # Path to save the hashed CSV file
 hashed_file_path = "data/output/cliente_bmw_hashed.csv"
 
